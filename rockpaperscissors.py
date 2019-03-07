@@ -14,6 +14,8 @@ moves = ['rock',  'paper',  'scissors']
 
 
 def sprint(self, str):
+    """Creates a function that slows down printing
+    of text for a more visually appealing game"""
     for c in str + "\n":
         sys.stdout.write(c)
         sys.stdout.flush()
@@ -21,20 +23,26 @@ def sprint(self, str):
 
 
 class Player:
+    """This is the parent player class"""
     def move(self):
         return 'rock'
-
+    """Placeholder for the learn definition, which stores the last moves made
+    to determine the next move of the AI player"""
     def learn(self, my_move, their_move):
         pass
 
 
 def beats(one, two):
+    """This is a method assigning Rock, Paper
+     and Scissors a value to find a winner"""
     return ((one == 'rock' and two == 'scissors') or
             (one == 'scissors' and two == 'paper') or
             (one == 'paper' and two == 'rock'))
 
 
 class ReflectPlayer(Player):
+    """Definition describing the attibutes
+     and behavior of the Reflect Player"""
     def __init__(self):
         self.score = 0
         self.move_temp = random.choice(moves)
@@ -47,7 +55,9 @@ class ReflectPlayer(Player):
 
 
 class CyclePlayer(Player):
+    """Definition describing the attibutes and behavior of the Cycle Player"""
     def __init__(self):
+        """Definition assigning a global score and stored move to this class"""
         self.score = 0
         self.move_temp = random.choice(moves)
 
@@ -64,7 +74,9 @@ class CyclePlayer(Player):
 
 
 class DumbPlayer(Player):
+    """Definition describing the attibutes and behavior of the dumb Player"""
     def __init__(self):
+        """Definition assigning a global score and stored move to this class"""
         self.score = 0
 
     def move(self):
@@ -72,7 +84,9 @@ class DumbPlayer(Player):
 
 
 class RandomPlayer(Player):
+    """Definition describing the attibutes and behavior of the Random Player"""
     def __init__(self):
+        """Definition assigning a global score and stored move to this class"""
         self.score = 0
 
     def move(self):
@@ -80,7 +94,9 @@ class RandomPlayer(Player):
 
 
 class HumanPlayer(Player):
+    """Definition describing the attibutes and behavior of the Human Player"""
     def __init__(self):
+        """Definition assigning a global score and stored move to this class"""
         self.score = 0
 
     def move(self):
@@ -93,13 +109,17 @@ class HumanPlayer(Player):
 
 
 class Game:
+    """this class describes the attributes and methods of the game"""
     def __init__(self, p1, p2):
+        """Definition assigning a starting score and player name variable"""
         self.p1 = p1
         self.p2 = p2
         self.p1.score = 0
         self.p2.score = 0
 
     def play_round(self):
+        """This definition sets up what happens during each round,
+        and can be called to start a new round"""
         move1 = self.p1.move()
         move2 = self.p2.move()
         sprint(self, f" You played {move1} \n Your opponent played {move2} \n")
@@ -117,8 +137,10 @@ class Game:
               f" Player 2: {self.p2.score} Points")
 
     def play_game(self):
+        """This definition starts and controls the actual game,
+        and details the feedback the player is given"""
         sprint(self, f"Let's Play! Winner is declared "
-                     f"after three rounds!")
+               f"after three rounds!")
         for round in range(3):
             sprint(self, f"\n Round {round} ----")
             self.play_round()
@@ -135,7 +157,7 @@ class Game:
         while True:
             again = input(f"Type 'again' to keep going, or 'exit' to close: ")
             if again.lower() == "again":
-                game.play_game()
+                RandomGame.play_game()
             elif again.lower() == "exit":
                 sprint(self, f"goodbye!")
                 sys.exit(0)
@@ -144,5 +166,10 @@ class Game:
 
 
 if __name__ == '__main__':
-    game = Game(HumanPlayer(), RandomPlayer())
-    game.play_game()
+    """Starts the game when opened, and detials
+    the different ways the AI can act during the game"""
+    CycleGame = Game(HumanPlayer(), CyclePlayer())
+    DumbGame = Game(HumanPlayer(), DumbPlayer())
+    ReflectGame = Game(HumanPlayer(), ReflectPlayer())
+    RandomGame = Game(HumanPlayer(), RandomPlayer())
+    RandomGame.play_game()
